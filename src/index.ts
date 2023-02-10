@@ -21,9 +21,9 @@ export const solveCaptcha = async (
   type: subscriptionType,
   debug: boolean
 ): Promise<void> => {
-  const outer = await page.waitForSelector('iframe[data-hcaptcha-response]');
+  const outer = await page.waitForXPath('//iframe[@data-hcaptcha-response and contains(@src,"hcaptcha.com")]');
   const outerFrame = await outer?.contentFrame();
-  const inner = await page.waitForSelector('iframe:not([data-hcaptcha-response])');
+  const inner = await page.waitForXPath('//iframe[not(@data-hcaptcha-response) and contains(@src,"hcaptcha.com")]');
   const innerFrame = await inner?.contentFrame();
   if (!outerFrame) throw new Error('solveCaptcha: captcha outer frame not found');
   if (!innerFrame) throw new Error('solveCaptcha: captcha inner frame not found');
